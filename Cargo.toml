@@ -1,6 +1,9 @@
 [package]
+authors = ["bjorn3 <bjorn3@users.noreply.github.com>"]
 name = "redox_init"
 version = "0.1.0"
-authors = ["bjorn3 <bjorn3@users.noreply.github.com>"]
 
 [dependencies]
+serde = "1.0.2"
+serde_derive = "1.0.2"
+toml = "0.4.0"

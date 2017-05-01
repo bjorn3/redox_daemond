@@ -1,15 +1,24 @@
 use std::collections::{HashSet, HashMap};
 use std::io;
 
-#[derive(Eq, PartialEq)]
+#[derive(Eq, PartialEq, Deserialize)]
 pub enum Status {
     Stopped,
     Started,
 }
 
+impl Default for Status {
+    fn default() -> Self {
+        Status::Stopped
+    }
+}
+
+#[derive(Deserialize)]
 pub struct Service {
     cmd: Vec<String>,
+    #[serde(default)]
     status: Status,
+    #[serde(default)]
     deps: Vec<String>,
 }
 
@@ -23,6 +32,7 @@ impl Service {
     }
 }
 
+#[derive(Deserialize)]
 pub struct ServiceManager(pub HashMap<String, Service>);
 
 impl ServiceManager {
