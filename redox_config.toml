@@ -1,0 +1,55 @@
+[00_randd]
+cmd = ["/sbin/randd"]
+
+[00_ptyd]
+cmd = ["/sbin/ptyd"]
+
+[00_pcid]
+cmd = ["/sbin/pcid", "/etc/pcid.toml"]
+
+[00_base]
+deps = ["00_randd", "00_ptyd", "00_pcid"]
+
+
+[10_ethernetd]
+cmd = ["/sbin/ethernetd"]
+deps = ["00_pcid"]
+
+[10_ipd]
+cmd = ["/sbin/ipd"]
+deps = ["10_ethernetd"]
+
+[10_tcpd]
+cmd = ["/sbin/tcpd"]
+deps = ["10_ipd"]
+
+[10_udpd]
+cmd = ["/sbin/udpd"]
+deps = ["10_ipd"]
+
+[10_dhcpd]
+cmd = ["dhcpd", "-b"]
+deps = ["10_tcpd", "10_udpd"]
+
+[10_net]
+deps = ["10_ethernetd", "10_ipd", "10_tcpd", "10_udpd", "10_dhcpd"]
+
+
+[20_orbital]
+cmd = ["/sbin/orbital", "display:3/activate", "/ui/bin/orblogin", "/ui/bin/launcher"]
+deps = ["00_base", "10_net"]
+
+
+[30_console]
+cmd = ["getty", "display:2"]
+deps = ["00_ptyd"]
+
+[30_debug]
+cmd = ["getty", "debug:", "-J"]
+deps = ["00_ptyd"]
+
+[30_getty]
+deps = ["30_console", "30_debug"]
+
+[40_all]
+deps = ["20_orbital", "30_getty"]
