@@ -1,6 +1,6 @@
 [package]
 authors = ["bjorn3 <bjorn3@users.noreply.github.com>"]
-name = "redox_init"
+name = "daemond"
 version = "0.1.0"
 
 [dependencies]
